@@ -21,4 +21,4 @@ const DbConnection = async () => {
     }
 };
 
-module.exports = { DbConnection, sequelize };
+module.exports = { DbConnection, db: sequelize };
