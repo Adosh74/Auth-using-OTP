@@ -10,6 +10,9 @@ const {
     DB_USERNAME,
     DB_PASSWORD,
     DB_DATABASE,
+    BCRYPT_PASSWORD,
+    SALT_ROUNDS,
+    SECRET_TOKEN,
 } = process.env;
 
 module.exports = {
@@ -20,4 +23,7 @@ module.exports = {
     db_username: DB_USERNAME,
     db_password: DB_PASSWORD,
     db_database: DB_DATABASE,
+    pepper: BCRYPT_PASSWORD,
+    salt_rounds: parseInt(SALT_ROUNDS || '10', 10),
+    jwt_secret: SECRET_TOKEN,
 };
