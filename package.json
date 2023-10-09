@@ -1,0 +1,19 @@
+{
+  "name": "auth-using-otp",
+  "version": "1.0.0",
+  "description": "Technical Test",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adosh74/Auth-using-OTP.git"
+  },
+  "author": "Mohamed Shebl",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Adosh74/Auth-using-OTP/issues"
+  },
+  "homepage": "https://github.com/Adosh74/Auth-using-OTP#readme"
+}
