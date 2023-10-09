@@ -23,7 +23,7 @@
         // },
         // "sort-imports": 1,
         "import/no-extraneous-dependencies": 1,
-        "import/extensions": "off",
+        // "import/extensions": "off",
         "prefer-destructuring": ["error", { "object": true, "array": false }],
         "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next|val" }]
     }

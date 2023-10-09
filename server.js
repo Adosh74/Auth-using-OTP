@@ -1,5 +1,5 @@
-import app from './app.js';
-import { DbConnection } from './config/database.config.js';
+const app = require('./app');
+const { DbConnection } = require('./config/database.config');
 
 const port = process.env.PORT || 3001;
 

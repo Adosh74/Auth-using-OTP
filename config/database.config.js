@@ -1,5 +1,5 @@
-import { Sequelize } from 'sequelize';
-import config from './env.config.js';
+const { Sequelize } = require('sequelize');
+const config = require('./env.config');
 
 const sequelize = new Sequelize(
     config.db_database,
@@ -12,7 +12,7 @@ const sequelize = new Sequelize(
     },
 );
 
-export const DbConnection = async () => {
+const DbConnection = async () => {
     try {
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
@@ -21,4 +21,4 @@ export const DbConnection = async () => {
     }
 };
 
-export default sequelize;
+module.exports = { DbConnection, sequelize };

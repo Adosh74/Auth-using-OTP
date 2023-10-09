@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 
 dotenv.config();
 
@@ -12,7 +12,7 @@ const {
     DB_DATABASE,
 } = process.env;
 
-export default {
+module.exports = {
     node_env: NODE_ENV,
     db_port: DB_PORT,
     db_host: DB_HOST,
