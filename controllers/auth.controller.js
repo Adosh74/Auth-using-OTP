@@ -119,6 +119,7 @@ exports.login = catchAsync(async (req, res, next) => {
         },
     );
 
+    req.user = user;
     // 5) send jwt token
     const token = signToken(user.id);
 
@@ -126,10 +127,6 @@ exports.login = catchAsync(async (req, res, next) => {
         success: true,
         name: `${user.firstName} ${user.lastName}`,
         token,
-    });
-
-    res.status(200).json({
-        success: true,
     });
 });
 
