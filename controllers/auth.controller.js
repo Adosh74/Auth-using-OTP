@@ -5,12 +5,13 @@ const bcrypt = require('bcryptjs');
 const config = require('../config/env.config');
 const jwt = require('jsonwebtoken');
 
-// otp generator
-const GenerateOTP = () =>
-    Math.floor(1000000 + Math.random() * 9000000).toString();
-
 // send otp
-const sendOTP = () => {
+const sendOTP = async (userId) => {
+    const newOTP = Math.floor(1000000 + Math.random() * 9000000).toString();
+    await OTP.create({
+        user_id: userId,
+        OTP: newOTP,
+    });
     console.log('OTP sent');
 };
 
@@ -53,14 +54,9 @@ exports.registration = catchAsync(async (req, res, next) => {
     });
 
     // generate and send otp
-    const otpGenerated = GenerateOTP();
-    sendOTP();
+    await sendOTP(user.id);
 
     // create new otp for user
-    await OTP.create({
-        user_id: user.id,
-        OTP: otpGenerated,
-    });
 
     res.status(201).json({
         success: true,
@@ -85,6 +81,7 @@ exports.login = catchAsync(async (req, res, next) => {
     }
 
     if (!user.verified_boolean) {
+        sendOTP(user.id);
         return next(new AppError('User not verified', 401));
     }
 
@@ -94,6 +91,7 @@ exports.login = catchAsync(async (req, res, next) => {
     });
 
     if (!user_otp || !user_otp.otp === reqOTP) {
+        sendOTP(user.id);
         return next(new AppError('OTP is incorrect', 401));
     }
 
@@ -102,10 +100,12 @@ exports.login = catchAsync(async (req, res, next) => {
     const currentTime = new Date().getTime();
 
     if (currentTime > expiredAfter) {
-        return next(new AppError('OTP expired', 401));
+        sendOTP(user.id);
+        return next(new AppError('Token Expired', 401));
     }
 
     if (user_otp.status === 'used') {
+        sendOTP(user.id);
         return next(new AppError('OTP already used', 401));
     }
 
@@ -130,5 +130,70 @@ exports.login = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
+    });
+});
+
+// *** +[3] Verify Handler *** //
+exports.verify = catchAsync(async (req, res, next) => {
+    const user_id = req.body.user_id * 1;
+    const reqOTP = req.body.otp;
+
+    // 1) Validate all input fields and check if user exists and verified
+    if (!user_id || !reqOTP) {
+        return next(new AppError('Please fill all input fields', 400));
+    }
+
+    // 2) get user and check if user exists
+    const user = await User.findByPk(user_id);
+
+    if (!user) {
+        return next(new AppError('User not found', 404));
+    }
+
+    const user_otp = await OTP.findOne({
+        where: { otp: reqOTP, user_id: user_id },
+    });
+
+    if (!user_otp || !user_otp.otp === reqOTP) {
+        sendOTP(user.id);
+        return next(new AppError('OTP is incorrect', 401));
+    }
+
+    // 2) check if expired or status is used
+    const expiredAfter = user_otp.createdAt.getTime() + 4 * 60 * 1000;
+    const currentTime = new Date().getTime();
+
+    if (currentTime > expiredAfter) {
+        sendOTP(user.id);
+        return next(new AppError('Token Expired', 401));
+    }
+    if (user_otp.status === 'used') {
+        sendOTP(user.id);
+        return next(new AppError('OTP already used', 401));
+    }
+
+    // 3) update otp status to used
+    await OTP.update(
+        { status: 'used' },
+        {
+            where: {
+                otp: reqOTP,
+            },
+        },
+    );
+
+    // 4) update user verified status
+    await User.update(
+        { verified_boolean: true },
+        {
+            where: {
+                id: user_id,
+            },
+        },
+    );
+
+    res.status(200).json({
+        success: true,
+        message: 'User verified',
     });
 });
