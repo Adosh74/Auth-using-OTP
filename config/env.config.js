@@ -13,10 +13,12 @@ const {
     BCRYPT_PASSWORD,
     SALT_ROUNDS,
     SECRET_TOKEN,
+    PORT,
 } = process.env;
 
 module.exports = {
     node_env: NODE_ENV,
+    port: PORT,
     db_port: DB_PORT,
     db_host: DB_HOST,
     db_dialect: DB_DIALECT,

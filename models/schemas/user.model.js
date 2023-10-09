@@ -21,7 +21,7 @@ module.exports = (db, type) =>
             },
             howFoundUs_id: {
                 type: type.INTEGER,
-                allowNull: true,
+                allowNull: false,
                 references: {
                     model: 'howFoundUs',
                     key: 'id',

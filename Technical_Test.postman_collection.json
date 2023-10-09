@@ -1,0 +1,114 @@
+{
+	"info": {
+		"_postman_id": "abb654f7-8e46-477a-a155-e23d28d63bc8",
+		"name": "Technical Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22825654",
+		"_collection_link": "https://lively-astronaut-351758.postman.co/workspace/c51b6aa5-67a5-46bc-82e7-11cc3b1ff0c7/collection/22825654-abb654f7-8e46-477a-a155-e23d28d63bc8?action=share&source=collection_link&creator=22825654"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"newUser\",\r\n    \"lastName\": \"two\",\r\n    \"password\": \"test1234\",\r\n    \"mobile\": \"011111\",\r\n    \"age\": 22,\r\n    \"howFoundUs_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 2,\r\n    \"otp\": \"3278127\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 1,\r\n    \"otp\": \"4685290\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "test server",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/xyz",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"xyz"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

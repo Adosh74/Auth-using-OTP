@@ -48,7 +48,7 @@ exports.registration = catchAsync(async (req, res, next) => {
         firstName,
         lastName,
         age,
-        // howFoundUs_id,
+        howFoundUs_id,
         password: hashedPassword,
         mobile,
     });

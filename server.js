@@ -1,7 +1,8 @@
 const app = require('./app');
 const { DbConnection } = require('./config/database.config');
+const config = require('./config/env.config');
 
-const port = process.env.PORT || 3001;
+const port = config.port || 3001;
 
 DbConnection();
 
