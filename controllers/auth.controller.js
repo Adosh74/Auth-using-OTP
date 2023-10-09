@@ -81,7 +81,7 @@ exports.login = catchAsync(async (req, res, next) => {
     }
 
     if (!user.verified_boolean) {
-        sendOTP(user.id);
+        await sendOTP(user.id);
         return next(new AppError('User not verified', 401));
     }
 
@@ -91,7 +91,7 @@ exports.login = catchAsync(async (req, res, next) => {
     });
 
     if (!user_otp || !user_otp.otp === reqOTP) {
-        sendOTP(user.id);
+        await sendOTP(user.id);
         return next(new AppError('OTP is incorrect', 401));
     }
 
@@ -100,12 +100,12 @@ exports.login = catchAsync(async (req, res, next) => {
     const currentTime = new Date().getTime();
 
     if (currentTime > expiredAfter) {
-        sendOTP(user.id);
+        await sendOTP(user.id);
         return next(new AppError('Token Expired', 401));
     }
 
     if (user_otp.status === 'used') {
-        sendOTP(user.id);
+        await sendOTP(user.id);
         return next(new AppError('OTP already used', 401));
     }
 
@@ -152,7 +152,7 @@ exports.verify = catchAsync(async (req, res, next) => {
     });
 
     if (!user_otp || !user_otp.otp === reqOTP) {
-        sendOTP(user.id);
+        await sendOTP(user.id);
         return next(new AppError('OTP is incorrect', 401));
     }
 
@@ -161,11 +161,11 @@ exports.verify = catchAsync(async (req, res, next) => {
     const currentTime = new Date().getTime();
 
     if (currentTime > expiredAfter) {
-        sendOTP(user.id);
+        await sendOTP(user.id);
         return next(new AppError('Token Expired', 401));
     }
     if (user_otp.status === 'used') {
-        sendOTP(user.id);
+        await sendOTP(user.id);
         return next(new AppError('OTP already used', 401));
     }
 
