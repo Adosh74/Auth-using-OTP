@@ -23,8 +23,8 @@ module.exports = (db, type) =>
             },
             status: {
                 type: type.ENUM,
-                values: ['active', 'inactive'],
-                defaultValue: 'active',
+                values: ['used', 'unused'],
+                defaultValue: 'unused',
                 allowNull: false,
             },
             createdAt: {
